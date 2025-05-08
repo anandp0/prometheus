@@ -92,3 +92,13 @@ scrape_configs:
     relabel_configs:
       - action: labelmap
         regex: __meta_kubernetes_node_label_(.+)
+
+  - job_name: 'cert_expiry_exporter'
+    static_configs:
+      - targets: ['10.0.13.21:9100']
+    metrics_path: /metrics
+    relabel_configs:
+      - source_labels: [__name__]
+        regex: 'microk8s_cert_expiry.*'
+        action: keep
+
