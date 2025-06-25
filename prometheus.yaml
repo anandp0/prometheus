@@ -10,6 +10,6 @@ scrape_configs:
       - targets: ['localhost:9090']
   - job_name: 'windows_server'
     static_configs:
-      - targets: ['13.203.155.99:9182']
+      - targets: ['13.126.224.82:9182']
         labels:
           instance: 'windows-server'
