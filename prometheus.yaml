@@ -1,7 +1,7 @@
 # Global configuration
 global:
-  scrape_interval: 15s # Scrape interval every 15 seconds
-  evaluation_interval: 15s # Evaluate rules every 15 seconds
+  scrape_interval: 15s
+  evaluation_interval: 15s
 
 # Scrape configurations
 scrape_configs:
