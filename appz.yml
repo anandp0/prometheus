@@ -4,11 +4,11 @@ app:
     notify: apeethambaran@ecloudcontrol.com
 
 build:
-    version: 2.54
+    version: 3.0
     env: DEV
     build_file: none
     output_files: output/*.zip
-    image_template: prometheus-2.54
+    image_template: prometheus-3.0
 
 deploy:
     context: anandp0/DEV
@@ -27,4 +27,3 @@ volumes:
   
 properties:
     revision : 4
-    
