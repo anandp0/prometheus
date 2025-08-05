@@ -27,8 +27,8 @@ groups:
 - name: Memory-usage
   rules:
   - alert: HostOutOfMemory
-    expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 8
-    for: 10m
+    expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 1
+    for: 1m
     labels:
       severity: warning
     annotations:
@@ -51,8 +51,8 @@ groups:
 - name: CPU-load
   rules:
   - alert: HighNodeCPU
-    expr: node_load15 / count by (instance, job) (node_cpu_seconds_total{mode="idle"}) >=2
-    for : 5m
+    expr: node_load15 / count by (instance, job) (node_cpu_seconds_total{mode="idle"}) >=0
+    for : 1m
     labels:
       severity: warning
     annotations:
