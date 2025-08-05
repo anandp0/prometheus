@@ -7,7 +7,7 @@ alerting:
   alertmanagers:
     - static_configs:
         - targets:
-            - mbk-alertmanager-0-2:9093
+            - alert-manager-0-28:9093
 
 # Rule files
 rule_files:
