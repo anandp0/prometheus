@@ -1,5 +1,4 @@
 groups:
-
 - name: Test-CPU-Usage
   rules:
   - alert: TestHighCPU
@@ -32,4 +31,34 @@ groups:
     annotations:
       summary: "TEST: Memory pressure on {{ $labels.instance }}"
       description: "⚠️ TEST ALERT: Less than 99% memory available\nVALUE = {{ $value }}%\nLABELS = {{ $labels }}"
+
+- name: Blackbox-Exporter-Alerts
+  rules:
+  - alert: BlackboxTargetDown
+    expr: probe_success == 0
+    for: 30s
+    labels:
+      severity: critical
+    annotations:
+      summary: "🚨 Probe failed for {{ $labels.instance }}"
+      description: "Target {{ $labels.instance }} is DOWN (probe failed)\nVALUE = {{ $value }}"
+
+  - alert: BlackboxHighLatency
+    expr: probe_duration_seconds > 5
+    for: 1m
+    labels:
+      severity: warning
+    annotations:
+      summary: "⚠️ High probe duration for {{ $labels.instance }}"
+      description: "Probe took more than 5s\nVALUE = {{ $value }}"
+
+  - alert: BlackboxSSLCertExpiringSoon
+    expr: (probe_ssl_earliest_cert_expiry - time()) < 86400 * 7
+    for: 10m
+    labels:
+      severity: warning
+    annotations:
+      summary: "⚠️ SSL Certificate expiring soon for {{ $labels.instance }}"
+      description: "SSL cert expires in less than 7 days\nVALUE = {{ $value }} (seconds until expiry)"
+
 
