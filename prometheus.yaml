@@ -38,21 +38,23 @@ scrape_configs:
   - job_name: 'kube-state-metrics'
     static_configs:
       - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']
-      
+
   - job_name: 'blackbox'
-  metrics_path: /probe
-  params:
-    module: [http_2xx]  # Use the module defined in blackbox.yml (default: http_2xx)
+    metrics_path: /probe
+    params:
+      module: [http_2xx]  # Uses http_2xx module from blackbox.yml
 
-  static_configs:
-    - targets:
-        - https://www.google.com
-        - http://example.com
+    static_configs:
+      - targets:
+          - https://www.google.com
+          - http://example.com
+          - https://sranjan1995-dev-graylog-5-2.1276c99e.lowtouch.cloud/status
 
-  relabel_configs:
-    - source_labels: [__address__]
-      target_label: __param_target
-    - source_labels: [__param_target]
-      target_label: instance
-    - target_label: __address__
-      replacement: blackbox-exporter-0-25:9115  # This should point to the blackbox-exporter pod or service
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter-0-25:9115  # blackbox-exporter service or pod DNS
+
