@@ -2,18 +2,6 @@ global:
   scrape_interval: 15s
   evaluation_interval: 15s
 
-# Alertmanager configuration
-alerting:
-  alertmanagers:
-    - static_configs:
-        - targets:
-            - alert-manager-0-28:9093
-
-# Rule files
-rule_files:
-  - /opt/bitnami/prometheus/conf/rules.yaml 
-  - /opt/bitnami/prometheus/conf/alerts.yaml
-
 scrape_configs:
   - job_name: 'node-exporter'
     static_configs:
@@ -23,38 +11,14 @@ scrape_configs:
           - 10.0.141.227:9100   # k8s-worker-node-1
     relabel_configs:
       - source_labels: [__address__]
-        regex: 10.0.13.32:9100
+        regex: 10.0.1.180:9100
         target_label: nodename
         replacement: engine-master
       - source_labels: [__address__]
-        regex: 10.0.142.29:9100
+        regex: 10.0.150.59:9100
         target_label: nodename
         replacement: k8s-worker-node-0
       - source_labels: [__address__]
-        regex: 10.0.137.181:9100
+        regex: 10.0.141.227:9100
         target_label: nodename
         replacement: k8s-worker-node-1
-
-  - job_name: 'kube-state-metrics'
-    static_configs:
-      - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']
-
-  - job_name: 'blackbox'
-    metrics_path: /probe
-    params:
-      module: [http_2xx]  # Uses http_2xx module from blackbox.yml
-
-    static_configs:
-      - targets:
-          - https://www.google.com
-          - http://example.com
-          - https://sranjan1995-dev-graylog-5-2.1276c99e.lowtouch.cloud/status
-
-    relabel_configs:
-      - source_labels: [__address__]
-        target_label: __param_target
-      - source_labels: [__param_target]
-        target_label: instance
-      - target_label: __address__
-        replacement: blackbox-exporter-0-25:9115  # blackbox-exporter service or pod DNS
-
